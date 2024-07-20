@@ -23,4 +23,13 @@ func main() {
 		log.Fatal(error)
 	}
 	fmt.Println(message)
+
+	productPrices, error := productlist.GetProductsPrice([]string{"Milk", "Bread"})
+	if error != nil {
+		log.Fatal(error)
+	}
+	for productName, productPrice := range productPrices {
+		fmt.Printf("%v has price %v", productName, productPrice)
+	}
+
 }
