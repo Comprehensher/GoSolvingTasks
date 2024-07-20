@@ -5,7 +5,36 @@ import (
 	"fmt"
 	"math/rand"
 	"slices"
+	"time"
 )
+
+type Product struct {
+	Name         string
+	Price        int
+	ArrivingDate time.Time
+}
+
+var products = []Product{
+	Product{
+		Name:         "Bread",
+		Price:        25,
+		ArrivingDate: time.Date(2024, 8, 15, 14, 30, 45, 100, time.Local),
+	},
+	Product{
+		Name:         "Milk",
+		Price:        85,
+		ArrivingDate: time.Date(2024, 8, 17, 14, 30, 45, 100, time.Local),
+	},
+	Product{
+		Name:         "Sugar",
+		Price:        39,
+		ArrivingDate: time.Date(2024, 8, 18, 14, 30, 45, 100, time.Local),
+	},
+}
+
+func (p Product) IsEmpty() bool {
+	return p.Name == ""
+}
 
 func GetProductPrice(productName string) (int, error) {
 	productMap := make(map[string]int)
@@ -71,4 +100,13 @@ func GetProductsPrice(productNames []string) (map[string]int, error) {
 
 	return resMap, nil
 
+}
+
+func GetProductInfo(productName string) (Product, error) {
+	for _, product := range products {
+		if product.Name == productName {
+			return product, nil
+		}
+	}
+	return Product{}, errors.New("No found such product")
 }

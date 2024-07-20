@@ -32,4 +32,14 @@ func main() {
 		fmt.Printf("%v has price %v", productName, productPrice)
 	}
 
+	productInfo, error := productlist.GetProductInfo("Bread")
+	if !productInfo.IsEmpty() {
+		fmt.Printf(" Product name - %v ", productInfo.Name)
+		fmt.Printf(" Product price - %v ", productInfo.Price)
+		fmt.Printf(" Product date - %v ", productInfo.ArrivingDate.Format("2006-1-2"))
+	}
+	if error != nil {
+		log.Fatal(error)
+	}
+
 }
