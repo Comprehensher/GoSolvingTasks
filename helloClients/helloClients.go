@@ -47,6 +47,13 @@ func main() {
 }
 
 func callProductWithPanic() {
+	defer func() {
+		val := recover()
+		if val != nil {
+			log.Printf("panicking: %v\n", val)
+
+		}
+	}()
 	product, error := productlist.GetProductWithPanic("Bread", 0)
 	if error != nil {
 		log.Fatal(error)
