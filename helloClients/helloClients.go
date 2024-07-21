@@ -41,5 +41,17 @@ func main() {
 	if error != nil {
 		log.Fatal(error)
 	}
+	fmt.Println()
+	callProductWithPanic()
 
+}
+
+func callProductWithPanic() {
+	product, error := productlist.GetProductWithPanic("Bread", 0)
+	if error != nil {
+		log.Fatal(error)
+	}
+	fmt.Printf(" Product name - %v ", product.Name)
+	fmt.Printf(" Product price - %v ", product.Price)
+	fmt.Printf(" Product date - %v ", product.ArrivingDate.Format("2006-1-2"))
 }

@@ -21,6 +21,11 @@ var products = []Product{
 		ArrivingDate: time.Date(2024, 8, 15, 14, 30, 45, 100, time.Local),
 	},
 	Product{
+		Name:         "Bread",
+		Price:        35,
+		ArrivingDate: time.Date(2024, 8, 15, 14, 30, 45, 100, time.Local),
+	},
+	Product{
 		Name:         "Milk",
 		Price:        85,
 		ArrivingDate: time.Date(2024, 8, 17, 14, 30, 45, 100, time.Local),
@@ -109,4 +114,20 @@ func GetProductInfo(productName string) (Product, error) {
 		}
 	}
 	return Product{}, errors.New("No found such product")
+}
+
+// Function with defer will be calles after outer method finishes or when exception
+func GetProductWithPanic(productName string, price int) (Product, error) {
+	if price <= 0 {
+		panic("incorrect price")
+	}
+
+	for _, product := range products {
+		if product.Name == productName && product.Price == price {
+			return product, nil
+		}
+	}
+
+	return Product{}, errors.New("no found such product")
+
 }
