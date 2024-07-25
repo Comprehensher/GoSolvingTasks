@@ -54,3 +54,14 @@ func ModifyClaimById(id int, db *sql.DB) (int, error) {
 	}
 	return id, nil
 }
+
+func AddNewClaim(newClaim Claim, db *sql.DB) (int, error) {
+
+	res, error := db.Exec("insert into claim1_tmp_remove(id, create_date, description, priority, progress) values(:1, :2, :3, :4, :5)",
+		newClaim.ID, newClaim.CreateDate, newClaim.Description, newClaim.Priority, newClaim.Progress)
+	_ = res
+	if error != nil {
+		return 0, fmt.Errorf("AddNewClaim can not insert rows - %w", error)
+	}
+	return newClaim.ID, nil
+}
