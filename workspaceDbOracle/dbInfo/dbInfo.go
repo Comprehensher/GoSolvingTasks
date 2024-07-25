@@ -65,3 +65,23 @@ func AddNewClaim(newClaim Claim, db *sql.DB) (int, error) {
 	}
 	return newClaim.ID, nil
 }
+
+func GetDesciptionFromPLSQL(claimId int, db *sql.DB) (string, error) {
+
+	row := db.QueryRow("select claim_pack.get_description_by_claim_id(:1) from dual", claimId)
+	var clmDescription string
+	if error := row.Scan(&clmDescription); error != nil {
+		return "", fmt.Errorf("GetClaimsByPriority can not scan row - %w", error)
+	}
+	return clmDescription, nil
+}
+
+func ModifyWithPLSQLFunctionById(id int, db *sql.DB) (int, error) {
+
+	res, error := db.Query("begin claim_pack.modify_claim1_tmp(:1); end;", id)
+	_ = res
+	if error != nil {
+		return 0, fmt.Errorf("ModifyWithPLSQLFunctionById can not update rows - %w", error)
+	}
+	return id, nil
+}

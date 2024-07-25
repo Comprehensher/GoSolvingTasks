@@ -49,6 +49,22 @@ func main() {
 	}
 	fmt.Println("Claim id %d was updated ", id)
 
+	fmt.Println()
+	id1, error1 := dbinfo.ModifyWithPLSQLFunctionById(3, db)
+	if error1 != nil {
+		log.Fatal(error1)
+	}
+	fmt.Println("Claim id1 %d was updated by function ", id1)
+
+	claimDescr, errDescr := dbinfo.GetDesciptionFromPLSQL(3, db)
+	if errDescr != nil {
+		log.Fatal(errDescr)
+	}
+	if claimDescr == "" {
+		log.Println("Claim Description is empty")
+	}
+	fmt.Println("Claim Description is ", claimDescr)
+
 	runHttpGinServer()
 
 }
