@@ -5,17 +5,17 @@ import (
 	"time"
 )
 
-func enumerateProducts(channel chan<- *Product) {
+func enumerateProducts(channel1, channel2 chan<- *Product) {
 	for _, p := range ProductList {
 		select {
-		case channel <- p:
-			fmt.Println("Sent product:", p.Name)
-		default:
-			fmt.Println("Discarding product:", p.Name)
-			time.Sleep(time.Second)
+		case channel1 <- p:
+			fmt.Println("Sent via channel 1")
+		case channel2 <- p:
+			fmt.Println("Sent via channel 2")
 		}
 	}
-	close(channel)
+	close(channel1)
+	close(channel2)
 }
 
 func main() {
@@ -23,12 +23,16 @@ func main() {
 	CalcStoreTotal(Products)
 	fmt.Println("main function complete calculation")
 
-	productChannel := make(chan *Product, 5)
-	go enumerateProducts(productChannel)
+	c1 := make(chan *Product, 2)
+	c2 := make(chan *Product, 2)
+	go enumerateProducts(c1, c2)
 
 	time.Sleep(time.Second)
 
-	for p := range productChannel {
-		fmt.Println("Received product:", p.Name)
+	for p := range c1 {
+		fmt.Println("Channel 1 received product:", p.Name)
+	}
+	for p := range c2 {
+		fmt.Println("Channel 2 received product:", p.Name)
 	}
 }
