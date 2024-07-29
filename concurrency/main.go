@@ -6,9 +6,14 @@ import (
 )
 
 func enumerateProducts(channel chan<- *Product) {
-	for _, p := range ProductList[:3] {
-		channel <- p
-		time.Sleep(time.Millisecond * 800)
+	for _, p := range ProductList {
+		select {
+		case channel <- p:
+			fmt.Println("Sent product:", p.Name)
+		default:
+			fmt.Println("Discarding product:", p.Name)
+			time.Sleep(time.Second)
+		}
 	}
 	close(channel)
 }
@@ -16,41 +21,14 @@ func enumerateProducts(channel chan<- *Product) {
 func main() {
 	fmt.Println("main function started")
 	CalcStoreTotal(Products)
-	// time.Sleep(time.Second * 5)
 	fmt.Println("main function complete calculation")
 
-	dispatchChannel := make(chan DispatchNotification, 100)
-	go DispatchOrders(chan<- DispatchNotification(dispatchChannel))
-	productChannel := make(chan *Product)
+	productChannel := make(chan *Product, 5)
 	go enumerateProducts(productChannel)
-	openChannels := 2
 
-	for {
-		select {
-		case details, ok := <-dispatchChannel:
-			if ok {
-				fmt.Println("Dispatch to", details.Customer, ":", details.Quantity, "x", details.Product.Name)
-			} else {
-				fmt.Println("Dispatch channel has been closed")
-				dispatchChannel = nil
-				openChannels--
-			}
-		case product, ok := <-productChannel:
-			if ok {
-				fmt.Println("Product:", product.Name)
-			} else {
-				fmt.Println("Product channel has been closed")
-				productChannel = nil
-				openChannels--
-			}
-		default:
-			if openChannels == 0 {
-				goto alldone
-			}
-			fmt.Println("-- No message ready to be received")
-			time.Sleep(time.Millisecond * 500)
-		}
+	time.Sleep(time.Second)
+
+	for p := range productChannel {
+		fmt.Println("Received product:", p.Name)
 	}
-alldone:
-	fmt.Println("All values received")
 }
