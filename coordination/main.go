@@ -4,9 +4,7 @@ import (
 	"sync"
 )
 
-var waitGroup = sync.WaitGroup{}
-
-func doSum(count int, val *int) {
+func doSum(count int, val *int, waitGroup *sync.WaitGroup) {
 	for i := 0; i < count; i++ {
 		*val++
 	}
@@ -16,8 +14,10 @@ func doSum(count int, val *int) {
 func main() {
 	counter := 0
 
+	waitGroup := sync.WaitGroup{}
+
 	waitGroup.Add(1)
-	doSum(5000, &counter)
+	doSum(5000, &counter, &waitGroup)
 	waitGroup.Wait()
 	Printfln("Total: %v", counter)
 }
