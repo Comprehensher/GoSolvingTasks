@@ -1,18 +1,26 @@
 package main
 
 import (
+	"context"
 	"sync"
 	"time"
 )
 
-func processRequest(wg *sync.WaitGroup, count int) {
+func processRequest(ctx context.Context, wg *sync.WaitGroup, count int) {
 	total := 0
 	for i := 0; i < count; i++ {
-		Printfln("Processing request: %v", total)
-		total++
-		time.Sleep(time.Millisecond * 250)
+		select {
+		case <-ctx.Done():
+			Printfln("Stopping processing - request cancelled")
+			goto end
+		default:
+			Printfln("Processing request: %v", total)
+			total++
+			time.Sleep(time.Millisecond * 250)
+		}
 	}
 	Printfln("Request processed...%v", total)
+end:
 	wg.Done()
 }
 
@@ -20,6 +28,12 @@ func main() {
 	waitGroup := sync.WaitGroup{}
 	waitGroup.Add(1)
 	Printfln("Request dispatched...")
-	go processRequest(&waitGroup, 10)
+	ctx, cancel := context.WithCancel(context.Background())
+	go processRequest(ctx, &waitGroup, 10)
+
+	time.Sleep(time.Second)
+	Printfln("Canceling request.")
+	cancel()
+
 	waitGroup.Wait()
 }
