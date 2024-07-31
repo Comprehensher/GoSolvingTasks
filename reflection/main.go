@@ -5,6 +5,7 @@ import (
 )
 
 var intPtrType = reflect.TypeOf((*int)(nil))
+var byteSliceType = reflect.TypeOf([]byte(nil))
 
 func getTypePath(t reflect.Type) (path string) {
 	path = t.PkgPath()
@@ -20,6 +21,8 @@ func printDetails(values ...interface{}) {
 		elemType := reflect.TypeOf(elem)
 		if elemType == intPtrType {
 			Printfln("Pointer to Int: %v", elemValue.Elem().Int())
+		} else if elemType == byteSliceType {
+			Printfln("Byte slice: %v", elemValue.Bytes())
 		} else {
 			switch elemValue.Kind() {
 			case reflect.Bool:
@@ -56,5 +59,6 @@ func main() {
 		Name: "Kayak", Category: "Watersports", Price: 279,
 	}
 	number := 100
-	printDetails(true, 10, 23.30, "Alice", &number, product)
+	slice := []byte("Alice")
+	printDetails(true, 10, 23.30, "Alice", &number, product, slice)
 }
