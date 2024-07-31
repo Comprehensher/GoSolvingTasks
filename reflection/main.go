@@ -6,12 +6,9 @@ import (
 
 func contains(slice interface{}, target interface{}) (found bool) {
 	sliceVal := reflect.ValueOf(slice)
-	targetType := reflect.TypeOf(target)
-	if sliceVal.Kind() == reflect.Slice &&
-		sliceVal.Type().Elem().Comparable() &&
-		targetType.Comparable() {
+	if sliceVal.Kind() == reflect.Slice {
 		for i := 0; i < sliceVal.Len(); i++ {
-			if sliceVal.Index(i).Interface() == target {
+			if reflect.DeepEqual(sliceVal.Index(i).Interface(), target) {
 				found = true
 			}
 		}
