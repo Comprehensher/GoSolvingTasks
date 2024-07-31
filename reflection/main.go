@@ -4,24 +4,24 @@ import (
 	"reflect"
 )
 
-func contains(slice interface{}, target interface{}) (found bool) {
-	sliceVal := reflect.ValueOf(slice)
-	if sliceVal.Kind() == reflect.Slice {
-		for i := 0; i < sliceVal.Len(); i++ {
-			if reflect.DeepEqual(sliceVal.Index(i).Interface(), target) {
-				found = true
-			}
-		}
+func convert(src, target interface{}) (result interface{}, assigned bool) {
+	srcVal := reflect.ValueOf(src)
+	targetVal := reflect.ValueOf(target)
+	if srcVal.Type().ConvertibleTo(targetVal.Type()) {
+		result = srcVal.Convert(targetVal.Type()).Interface()
+		assigned = true
+	} else {
+		result = src
 	}
 	return
 }
 
 func main() {
-	// name := "Alice"
-	// price := 279
-	city := "London"
-	citiesSlice := []string{"Paris", "Rome", "London"}
-	Printfln("Found #1: %v", contains(citiesSlice, city))
-	sliceOfSlices := [][]string{citiesSlice, {"First", "Second", "Third"}}
-	Printfln("Found #2: %v", contains(sliceOfSlices, citiesSlice))
+	name := "Alice"
+	price := 279
+	//city := "London"
+	newVal, ok := convert(price, 100.00)
+	Printfln("Converted %v: %v, %T", ok, newVal, newVal)
+	newVal, ok = convert(name, 100.00)
+	Printfln("Converted %v: %v, %T", ok, newVal, newVal)
 }
