@@ -2,25 +2,14 @@ package main
 
 import (
 	"reflect"
-	"strings"
 )
 
-func incrementOrUpper(values ...interface{}) {
-	for _, elem := range values {
-		elemValue := reflect.ValueOf(elem)
-		if elemValue.Kind() == reflect.Ptr {
-			elemValue = elemValue.Elem()
-		}
-		if elemValue.CanSet() {
-			switch elemValue.Kind() {
-			case reflect.Int:
-				elemValue.SetInt(elemValue.Int() + 1)
-			case reflect.String:
-				elemValue.SetString(strings.ToUpper(elemValue.String()))
-			}
-			Printfln("Modified Value: %v", elemValue)
-		} else {
-			Printfln("Cannot set %v: %v", elemValue.Kind(), elemValue)
+func setAll(src interface{}, targets ...interface{}) {
+	srcVal := reflect.ValueOf(src)
+	for _, target := range targets {
+		targetVal := reflect.ValueOf(target)
+		if targetVal.Kind() == reflect.Ptr && targetVal.Elem().Type() == srcVal.Type() && targetVal.Elem().CanSet() {
+			targetVal.Elem().Set(srcVal)
 		}
 	}
 }
@@ -29,7 +18,8 @@ func main() {
 	name := "Alice"
 	price := 279
 	city := "London"
-	incrementOrUpper(&name, &price, &city)
+	setAll("New String", &name, &price, &city)
+	setAll(10, &name, &price, &city)
 	for _, val := range []interface{}{name, price, city} {
 		Printfln("Value: %v", val)
 	}
