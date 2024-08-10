@@ -2,23 +2,27 @@ package main
 
 import (
 	"reflect"
+	"strings"
 )
 
-func invokeFunction(f interface{}, params ...interface{}) {
-	paramVals := []reflect.Value{}
-	for _, p := range params {
-		paramVals = append(paramVals, reflect.ValueOf(p))
-	}
-	funcVal := reflect.ValueOf(f)
-	if funcVal.Kind() == reflect.Func {
-		results := funcVal.Call(paramVals)
-		for i, r := range results {
-			Printfln("Result #%v: %v", i, r)
+func mapSlice(slice interface{}, mapper interface{}) (mapped []interface{}) {
+	sliceVal := reflect.ValueOf(slice)
+	mapperVal := reflect.ValueOf(mapper)
+	mapped = []interface{}{}
+	if sliceVal.Kind() == reflect.Slice && mapperVal.Kind() == reflect.Func &&
+		mapperVal.Type().NumIn() == 1 &&
+		mapperVal.Type().In(0) == sliceVal.Type().Elem() {
+		for i := 0; i < sliceVal.Len(); i++ {
+			result := mapperVal.Call([]reflect.Value{sliceVal.Index(i)})
+			for _, r := range result {
+				mapped = append(mapped, r.Interface())
+			}
 		}
 	}
+	return
 }
-
 func main() {
 	names := []string{"Alice", "Bob", "Charlie"}
-	invokeFunction(Find, names, "London", "Bob")
+	results := mapSlice(names, strings.ToUpper)
+	Printfln("Results: %v", results)
 }
