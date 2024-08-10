@@ -15,6 +15,13 @@ func printPrice(product string, price float64, calculator func(float64) float64)
 		calculator(price))
 }
 
+func selectCalculator(price float64) func(float64) float64 {
+	if price > 100 {
+		return calcWithTax
+	}
+	return calcWithoutTax
+}
+
 func main() {
 	products := map[string]float64{
 		"Kayak":      275,
@@ -22,10 +29,6 @@ func main() {
 	}
 
 	for product, price := range products {
-		if price > 100 {
-			printPrice(product, price, calcWithTax)
-		} else {
-			printPrice(product, price, calcWithoutTax)
-		}
+		printPrice(product, price, selectCalculator(price))
 	}
 }
