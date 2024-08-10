@@ -17,11 +17,13 @@ func main() {
 
 	for product, price := range products {
 		var calcFunc func(float64) float64
+		fmt.Println("Function assigned:", calcFunc == nil)
 		if price > 100 {
 			calcFunc = calcWithTax
 		} else {
 			calcFunc = calcWithoutTax
 		}
+		fmt.Println("Function assigned:", calcFunc == nil)
 		totalPrice := calcFunc(price)
 		fmt.Println("Product:", product, "Price:",
 			totalPrice)
