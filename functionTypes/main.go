@@ -4,13 +4,13 @@ import "fmt"
 
 type calcFunc func(float64) float64
 
-func calcWithTax(price float64) float64 {
-	return price + (price * 0.2)
-}
+// func calcWithTax(price float64) float64 {
+// 	return price + (price * 0.2)
+// }
 
-func calcWithoutTax(price float64) float64 {
-	return price
-}
+// func calcWithoutTax(price float64) float64 {
+// 	return price
+// }
 
 func printPrice(product string, price float64, calculator calcFunc) {
 	fmt.Println("Product:", product, "Price:",
@@ -19,9 +19,15 @@ func printPrice(product string, price float64, calculator calcFunc) {
 
 func selectCalculator(price float64) calcFunc {
 	if price > 100 {
-		return calcWithTax
+		var funcWithTax calcFunc = func(price float64) float64 {
+			return price + (price * 0.2)
+		}
+		return funcWithTax
 	}
-	return calcWithoutTax
+	var funcWithoutTax calcFunc = func(price float64) float64 {
+		return price
+	}
+	return funcWithoutTax
 }
 
 func main() {
