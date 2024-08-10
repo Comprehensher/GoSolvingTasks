@@ -11,9 +11,9 @@ func printPrice(product string, price float64, calculator calcFunc) {
 
 var prizeGiveaway = false
 
-func priceCalcFactory(threshold, rate float64, zeroPrices bool) calcFunc {
+func priceCalcFactory(threshold, rate float64, zeroPrices *bool) calcFunc {
 	return func(price float64) float64 {
-		if zeroPrices {
+		if *zeroPrices {
 			return 0
 		} else if price > threshold {
 			return price + (price * rate)
@@ -32,9 +32,9 @@ func main() {
 	}
 
 	prizeGiveaway = false
-	waterCalc := priceCalcFactory(100, 0.2, prizeGiveaway)
+	waterCalc := priceCalcFactory(100, 0.2, &prizeGiveaway)
 	prizeGiveaway = true
-	soccerCalc := priceCalcFactory(50, 0.1, prizeGiveaway)
+	soccerCalc := priceCalcFactory(50, 0.1, &prizeGiveaway)
 
 	for product, price := range watersportsProducts {
 		printPrice(product, price, waterCalc)
