@@ -19,15 +19,13 @@ func printPrice(product string, price float64, calculator calcFunc) {
 
 func selectCalculator(price float64) calcFunc {
 	if price > 100 {
-		var funcWithTax calcFunc = func(price float64) float64 {
+		return func(price float64) float64 {
 			return price + (price * 0.2)
 		}
-		return funcWithTax
 	}
-	var funcWithoutTax calcFunc = func(price float64) float64 {
+	return func(price float64) float64 {
 		return price
 	}
-	return funcWithoutTax
 }
 
 func main() {
