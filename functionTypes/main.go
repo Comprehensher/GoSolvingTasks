@@ -12,8 +12,9 @@ func printPrice(product string, price float64, calculator calcFunc) {
 var prizeGiveaway = false
 
 func priceCalcFactory(threshold, rate float64) calcFunc {
+	fixedPrizeGiveway := prizeGiveaway
 	return func(price float64) float64 {
-		if prizeGiveaway {
+		if fixedPrizeGiveway {
 			return 0
 		} else if price > threshold {
 			return price + (price * rate)
