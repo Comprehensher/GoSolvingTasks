@@ -7,15 +7,17 @@ import (
 func executeFirstVoidMethod(s interface{}) {
 	sVal := reflect.ValueOf(s)
 	for i := 0; i < sVal.NumMethod(); i++ {
-		method := sVal.Type().Method(i)
-		if method.Type.NumIn() == 1 {
-			results := method.Func.Call([]reflect.Value{sVal})
+		method := sVal.Method(i)
+		if method.Type().NumIn() == 0 {
+			results := method.Call([]reflect.Value{})
 			Printfln("Type: %v, Method: %v, Results: %v",
-				sVal.Type(), method.Name, results)
+				sVal.Type(), sVal.Type().Method(i).Name,
+				results)
 			break
 		} else {
-			Printfln("Skipping method %v %v", method.Name,
-				method.Type.NumIn())
+			Printfln("Skipping method %v %v",
+				sVal.Type().Method(i).Name,
+				method.Type().NumIn())
 		}
 	}
 }
