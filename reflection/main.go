@@ -4,21 +4,20 @@ import (
 	"reflect"
 )
 
-func checkImplementation(check interface{}, targets ...interface{}) {
-	checkType := reflect.TypeOf(check)
-	if checkType.Kind() == reflect.Ptr &&
-		checkType.Elem().Kind() == reflect.Interface {
-		checkType := checkType.Elem()
-		for _, target := range targets {
-			targetType := reflect.TypeOf(target)
-			Printfln("Type %v implements %v: %v",
-				targetType, checkType,
-				targetType.Implements(checkType))
-		}
+type Wrapper struct {
+	NamedItem
+}
+
+func getUnderlying(item Wrapper, fieldName string) {
+	itemVal := reflect.ValueOf(item)
+	fieldVal := itemVal.FieldByName(fieldName)
+	Printfln("Field Type: %v", fieldVal.Type())
+	if fieldVal.Kind() == reflect.Interface {
+		Printfln("Underlying Type: %v",
+			fieldVal.Elem().Type())
 	}
 }
 
 func main() {
-	currencyItemType := (*CurrencyItem)(nil)
-	checkImplementation(currencyItemType, Product{}, &Product{}, &Purchase{})
+	getUnderlying(Wrapper{NamedItem: &Product{}}, "NamedItem")
 }
