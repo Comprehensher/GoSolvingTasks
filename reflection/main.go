@@ -4,15 +4,33 @@ import (
 	"reflect"
 )
 
-func inspectChannel(channel interface{}) {
-	channelType := reflect.TypeOf(channel)
-	if channelType.Kind() == reflect.Chan {
-		Printfln("Type %v, Direction: %v",
-			channelType.Elem(), channelType.ChanDir())
+func sendOverChannel(channel interface{}, data interface{}) {
+	channelVal := reflect.ValueOf(channel)
+	dataVal := reflect.ValueOf(data)
+	if channelVal.Kind() == reflect.Chan &&
+		dataVal.Kind() == reflect.Slice &&
+		channelVal.Type().Elem() ==
+			dataVal.Type().Elem() {
+		for i := 0; i < dataVal.Len(); i++ {
+			val := dataVal.Index(i)
+			channelVal.Send(val)
+		}
+		channelVal.Close()
+	} else {
+		Printfln("Unexpected types: %v, %v",
+			channelVal.Type(), dataVal.Type())
 	}
 }
 
 func main() {
-	var c chan<- string
-	inspectChannel(c)
+	values := []string{"Alice", "Bob", "Charlie", "Dora"}
+	channel := make(chan string)
+	go sendOverChannel(channel, values)
+	for {
+		if val, open := <-channel; open {
+			Printfln("Received value: %v", val)
+		} else {
+			break
+		}
+	}
 }
