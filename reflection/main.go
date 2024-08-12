@@ -18,14 +18,37 @@ func createChannelAndSend(data interface{}) interface{} {
 	return channel.Interface()
 }
 
+func readChannels(channels ...interface{}) {
+	channelsVal := reflect.ValueOf(channels)
+	cases := []reflect.SelectCase{}
+	for i := 0; i < channelsVal.Len(); i++ {
+		cases = append(cases, reflect.SelectCase{
+			Chan: channelsVal.Index(i).Elem(),
+			Dir:  reflect.SelectRecv,
+		})
+	}
+	for {
+		caseIndex, val, ok := reflect.Select(cases)
+		if ok {
+			Printfln("Value read: %v, Type: %v", val,
+				val.Type())
+		} else {
+			if len(cases) == 1 {
+				Printfln("All channels closed.")
+				return
+			}
+			cases = append(cases[:caseIndex],
+				cases[caseIndex+1:]...)
+		}
+	}
+}
+
 func main() {
 	values := []string{"Alice", "Bob", "Charlie", "Dora"}
 	channel := createChannelAndSend(values).(chan string)
-	for {
-		if val, open := <-channel; open {
-			Printfln("Received value: %v", val)
-		} else {
-			break
-		}
-	}
+	cities := []string{"London", "Rome", "Paris"}
+	cityChannel := createChannelAndSend(cities).(chan string)
+	prices := []float64{279, 48.95, 19.50}
+	priceChannel := createChannelAndSend(prices).(chan float64)
+	readChannels(channel, cityChannel, priceChannel)
 }
