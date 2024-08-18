@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	_ "eu.corp/hello/packages/data"
 	"golang.org/x/example/hello/reverse"
 )
 
