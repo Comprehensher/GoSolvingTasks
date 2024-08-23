@@ -2,14 +2,11 @@ package main
 
 import (
 	"fmt"
-	"sort"
+	"reflect"
 )
 
 func main() {
-	products := []string{"Kayak", "Lifejacket", "Paddle",
-		"Hat"}
-	sort.Strings(products)
-	for index, value := range products {
-		fmt.Println("Index:", index, "Value:", value)
-	}
+	p1 := []string{"Kayak", "Lifejacket", "Paddle", "Hat"}
+	p2 := p1
+	fmt.Println("Equal:", reflect.DeepEqual(p1, p2))
 }
