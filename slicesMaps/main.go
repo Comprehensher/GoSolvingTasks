@@ -1,11 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 func main() {
 	products := []string{"Kayak", "Lifejacket", "Paddle",
 		"Hat"}
-	for index, value := range products[2:] {
+	sort.Strings(products)
+	for index, value := range products {
 		fmt.Println("Index:", index, "Value:", value)
 	}
 }
