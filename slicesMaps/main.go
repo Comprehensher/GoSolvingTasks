@@ -5,14 +5,10 @@ import "fmt"
 func main() {
 	products := [4]string{"Kayak", "Lifejacket", "Paddle",
 		"Hat"}
-	someNames := products[1:3:3]
-	allNames := products[:]
-	someNames = append(someNames, "Gloves")
-	//someNames = append(someNames, "Boots")
+	allNames := products[1:]
+	someNames := allNames[1:3]
+	allNames = append(allNames, "Gloves")
+	allNames[1] = "Canoe"
 	fmt.Println("someNames:", someNames)
-	fmt.Println("someNames len:", len(someNames), "cap:",
-		cap(someNames))
 	fmt.Println("allNames", allNames)
-	fmt.Println("allNames len", len(allNames), "cap:",
-		cap(allNames))
 }
