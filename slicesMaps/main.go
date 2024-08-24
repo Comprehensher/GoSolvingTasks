@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 )
 
 func main() {
 	p1 := []string{"Kayak", "Lifejacket", "Paddle", "Hat"}
-	p2 := p1
-	fmt.Println("Equal:", reflect.DeepEqual(p1, p2))
+	arrayPtr := (*[3]string)(p1)
+	array := *arrayPtr
+	fmt.Println(array)
 }
