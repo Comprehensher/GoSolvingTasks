@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 func main() {
@@ -10,8 +11,12 @@ func main() {
 		"Lifejacket": 48.95,
 		"Hat":        0,
 	}
-
-	for key, value := range products {
-		fmt.Println("Key:", key, "Value:", value)
+	keys := make([]string, 0, len(products))
+	for key, _ := range products {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	for _, key := range keys {
+		fmt.Println("Key:", key, "Value:", products[key])
 	}
 }
