@@ -2,21 +2,19 @@ package main
 
 import (
 	"fmt"
-	"sort"
+	"strconv"
 )
 
 func main() {
-	products := map[string]float64{
-		"Kayak":      279,
-		"Lifejacket": 48.95,
-		"Hat":        0,
-	}
-	keys := make([]string, 0, len(products))
-	for key, _ := range products {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
-	for _, key := range keys {
-		fmt.Println("Key:", key, "Value:", products[key])
+	var price []rune = []rune("€48.95")
+	var currency string = string(price[0])
+	var amountString string = string(price[1:])
+	amount, parseErr := strconv.ParseFloat(amountString, 64)
+	fmt.Println("Length:", len(price))
+	fmt.Println("Currency:", currency)
+	if parseErr == nil {
+		fmt.Println("Amount:", amount)
+	} else {
+		fmt.Println("Parse Error:", parseErr)
 	}
 }
