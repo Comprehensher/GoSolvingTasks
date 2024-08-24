@@ -9,7 +9,9 @@ func main() {
 		"Kayak":      279,
 		"Lifejacket": 48.95,
 	}
-	fmt.Println("Map size:", len(products))
-	fmt.Println("Price:", products["Kayak"])
-	fmt.Println("Price:", products["Hat"])
+	if value, ok := products["Hat"]; ok {
+		fmt.Println("Stored value:", value)
+	} else {
+		fmt.Println("No stored value")
+	}
 }
