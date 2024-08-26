@@ -7,6 +7,8 @@ import (
 
 func main() {
 	description := "A boat for one person"
-	trimmed := strings.Trim(description, "Asno ")
-	fmt.Println("Trimmed:", trimmed)
+	prefixTrimmed := strings.TrimPrefix(description, "A boat")
+	wrongPrefix := strings.TrimPrefix(description, "A hat ")
+	fmt.Println("Trimmed:", prefixTrimmed)
+	fmt.Println("Not trimmed:", wrongPrefix)
 }
