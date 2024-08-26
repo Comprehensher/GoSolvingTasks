@@ -2,19 +2,15 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"regexp"
 )
 
 func main() {
-	text := "It was a boat. A small boat."
-
-	var builder strings.Builder
-	for _, sub := range strings.Fields(text) {
-		if sub == "small" {
-			builder.WriteString("very ")
-		}
-		builder.WriteString(sub)
-		builder.WriteRune(' ')
+	description := "A boat for one person"
+	match, err := regexp.MatchString("[A-z]oat", description)
+	if err == nil {
+		fmt.Println("Match:", match)
+	} else {
+		fmt.Println("Error:", err)
 	}
-	fmt.Println("String:", builder.String())
 }
