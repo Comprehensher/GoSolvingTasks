@@ -6,10 +6,9 @@ import (
 )
 
 func main() {
-	description := "A boat for one person"
-	trimmer := func(r rune) bool {
-		return r == 'A' || r == 'n'
-	}
-	trimmed := strings.TrimFunc(description, trimmer)
-	fmt.Println("Trimmed:", trimmed)
+	text := "It was a boat. A small boat."
+	replace := strings.Replace(text, "boat", "canoe", 1)
+	replaceAll := strings.ReplaceAll(text, "boat", "truck")
+	fmt.Println("Replace:", replace)
+	fmt.Println("Replace All:", replaceAll)
 }
