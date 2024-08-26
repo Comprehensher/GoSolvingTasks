@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	username := " Alice"
-	trimmed := strings.TrimSpace(username)
-	fmt.Println("Trimmed:", ">>"+trimmed+"<<")
+	description := "A boat for one person"
+	trimmed := strings.Trim(description, "Asno ")
+	fmt.Println("Trimmed:", trimmed)
 }
