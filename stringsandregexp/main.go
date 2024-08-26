@@ -7,8 +7,9 @@ import (
 
 func main() {
 	description := "A boat for one person"
-	prefixTrimmed := strings.TrimPrefix(description, "A boat")
-	wrongPrefix := strings.TrimPrefix(description, "A hat ")
-	fmt.Println("Trimmed:", prefixTrimmed)
-	fmt.Println("Not trimmed:", wrongPrefix)
+	trimmer := func(r rune) bool {
+		return r == 'A' || r == 'n'
+	}
+	trimmed := strings.TrimFunc(description, trimmer)
+	fmt.Println("Trimmed:", trimmed)
 }
