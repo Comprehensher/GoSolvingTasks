@@ -7,9 +7,12 @@ import (
 
 func main() {
 	description := "A boat for one person"
-	isLetterB := func(r rune) bool {
-		return r == 'B' || r == 'b'
+	splits := strings.Split(description, " ")
+	for _, x := range splits {
+		fmt.Println("Split >>" + x + "<<")
 	}
-	fmt.Println("IndexFunc:", strings.IndexFunc(description,
-		isLetterB))
+	splitsAfter := strings.SplitAfter(description, " ")
+	for _, x := range splitsAfter {
+		fmt.Println("SplitAfter >>" + x + "<<")
+	}
 }
