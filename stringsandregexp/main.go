@@ -5,19 +5,20 @@ import (
 	"regexp"
 )
 
+func getSubstring(s string, indices []int) string {
+	return string(s[indices[0]:indices[1]])
+}
+
 func main() {
-	pattern, compileErr := regexp.Compile("[A-z]oat")
-	description := "A boat for one person"
-	question := "Is that a goat?"
-	preference := "I like oats"
-	if compileErr == nil {
-		fmt.Println("Description:",
-			pattern.MatchString(description))
-		fmt.Println("Question:",
-			pattern.MatchString(question))
-		fmt.Println("Preference:",
-			pattern.MatchString(preference))
-	} else {
-		fmt.Println("Error:", compileErr)
+	pattern := regexp.MustCompile("K[a-z]{4}|[A-z]oat")
+	description := "Kayak. A boat for one person."
+	firstIndex := pattern.FindStringIndex(description)
+	allIndices := pattern.FindAllStringIndex(description, -1)
+	fmt.Println("First index", firstIndex[0], "-",
+		firstIndex[1],
+		"=", getSubstring(description, firstIndex))
+	for i, idx := range allIndices {
+		fmt.Println("Index", i, "=", idx[0], "-",
+			idx[1], "=", getSubstring(description, idx))
 	}
 }
