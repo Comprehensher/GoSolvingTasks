@@ -6,8 +6,10 @@ import (
 )
 
 func main() {
-	pattern := regexp.MustCompile("A [A-z]* for [A-z]* person")
+	pattern := regexp.MustCompile("A ([A-z]*) for ([A-z]*) person")
 	description := "Kayak. A boat for one person."
-	str := pattern.FindString(description)
-	fmt.Println("Match:", str)
+	subs := pattern.FindStringSubmatch(description)
+	for _, s := range subs {
+		fmt.Println("Match:", s)
+	}
 }
