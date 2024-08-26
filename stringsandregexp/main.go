@@ -6,12 +6,8 @@ import (
 )
 
 func main() {
-	pattern := regexp.MustCompile(" |boat|one")
+	pattern := regexp.MustCompile("A [A-z]* for [A-z]* person")
 	description := "Kayak. A boat for one person."
-	split := pattern.Split(description, -1)
-	for _, s := range split {
-		if s != "" {
-			fmt.Println("Substring:", s)
-		}
-	}
+	str := pattern.FindString(description)
+	fmt.Println("Match:", str)
 }
