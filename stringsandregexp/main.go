@@ -6,13 +6,9 @@ import (
 )
 
 func main() {
-	description := "A boat for one person"
-	splits := strings.SplitN(description, " ", 3)
+	description := "This  is  double  spaced"
+	splits := strings.Fields(description)
 	for _, x := range splits {
-		fmt.Println("Split >>" + x + "<<")
+		fmt.Println("Field >>" + x + "<<")
 	}
-	// splitsAfter := strings.SplitAfter(description, " ")
-	// for _, x := range splitsAfter {
-	// fmt.Println("SplitAfter >>" + x + "<<")
-	// }
 }
