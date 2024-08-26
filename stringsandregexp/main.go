@@ -6,11 +6,18 @@ import (
 )
 
 func main() {
+	pattern, compileErr := regexp.Compile("[A-z]oat")
 	description := "A boat for one person"
-	match, err := regexp.MatchString("[A-z]oat", description)
-	if err == nil {
-		fmt.Println("Match:", match)
+	question := "Is that a goat?"
+	preference := "I like oats"
+	if compileErr == nil {
+		fmt.Println("Description:",
+			pattern.MatchString(description))
+		fmt.Println("Question:",
+			pattern.MatchString(question))
+		fmt.Println("Preference:",
+			pattern.MatchString(preference))
 	} else {
-		fmt.Println("Error:", err)
+		fmt.Println("Error:", compileErr)
 	}
 }
