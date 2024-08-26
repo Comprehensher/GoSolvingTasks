@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"unicode"
 )
 
 func main() {
-	description := "A boat for sailing"
-	fmt.Println("Original:", description)
-	fmt.Println("Title:", strings.Title(description))
+	product := "Kayak"
+	for _, char := range product {
+		fmt.Println(string(char), "Upper case:",
+			unicode.IsUpper(char))
+	}
 }
