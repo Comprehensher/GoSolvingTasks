@@ -7,12 +7,8 @@ import (
 
 func main() {
 	text := "It was a boat. A small boat."
-	mapper := func(r rune) rune {
-		if r == 'b' {
-			return 'c'
-		}
-		return r
-	}
-	mapped := strings.Map(mapper, text)
-	fmt.Println("Mapped:", mapped)
+	replacer := strings.NewReplacer("boat", "kayak", "small",
+		"huge")
+	replaced := replacer.Replace(text)
+	fmt.Println("Replaced:", replaced)
 }
