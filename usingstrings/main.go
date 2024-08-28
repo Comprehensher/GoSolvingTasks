@@ -7,7 +7,6 @@ func Printfln(template string, values ...interface{}) {
 }
 func main() {
 	name := "Kayak"
-	Printfln("String: %s", name)
-	Printfln("Character: %c", []rune(name)[0])
-	Printfln("Unicode: %U", []rune(name)[0])
+	Printfln("Bool: %t", len(name) > 1)
+	Printfln("Bool: %t", len(name) > 100)
 }
