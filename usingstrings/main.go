@@ -9,8 +9,10 @@ func main() {
 	var name string
 	var category string
 	var price float64
-	source := "Lifejacket Watersports 48.95"
-	n, err := fmt.Sscan(source, &name, &category, &price)
+	source := "Product Lifejacket Watersports 48.95"
+	template := "Product %s %s %f"
+	n, err := fmt.Sscanf(source, template, &name, &category,
+		&price)
 	if err == nil {
 		Printfln("Scanned %v values", n)
 		Printfln("Name: %v, Category: %v, Price: %.2f", name,
