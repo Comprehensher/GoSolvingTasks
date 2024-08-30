@@ -1,21 +1,13 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"time"
 )
 
-func PrintTime(label string, t *time.Time) {
-	layout := "Day: 02 Month: Jan Year: 2006"
-	fmt.Println(label, t.Format(layout))
-}
-
 func main() {
-	current := time.Now()
-	specific := time.Date(1995, time.June, 9, 0, 0, 0, 0,
-		time.Local)
-	unix := time.Unix(1433228090, 0)
-	PrintTime("Current", &current)
-	PrintTime("Specific", &specific)
-	PrintTime("UNIX", &unix)
+	t1, _ := time.Parse(time.RFC822Z, "09 Jun 95 04:59 +0100")
+	t2, _ := time.Parse(time.RFC822Z, "08 Jun 95 23:59 -0400")
+	Printfln("Equal Method: %v", t1.Equal(t2))
+	Printfln("Equality Operator: %v", t1 == t2)
 }
