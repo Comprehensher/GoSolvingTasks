@@ -7,13 +7,14 @@ import (
 
 func writeToChannel(nameChannel chan<- string) {
 	names := []string{"Alice", "Bob", "Charlie", "Dora"}
-	tickChannel := time.Tick(time.Second)
+	ticker := time.NewTicker(time.Second / 10)
 	index := 0
 	for {
-		<-tickChannel
+		<-ticker.C
 		nameChannel <- names[index]
 		index++
 		if index == len(names) {
+			ticker.Stop()
 			close(nameChannel)
 			break
 		}
