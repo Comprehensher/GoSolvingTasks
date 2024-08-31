@@ -5,11 +5,12 @@ import (
 	"strings"
 )
 
-func processData(reader io.Reader) {
+func processData(reader io.Reader, writer io.Writer) {
 	b := make([]byte, 2)
 	for {
 		count, err := reader.Read(b)
 		if count > 0 {
+			writer.Write(b[0:count])
 			Printfln("Read %v bytes: %v", count,
 				string(b[0:count]))
 		}
@@ -18,7 +19,10 @@ func processData(reader io.Reader) {
 		}
 	}
 }
+
 func main() {
 	r := strings.NewReader("Kayak")
-	processData(r)
+	var builder strings.Builder
+	processData(r, &builder)
+	Printfln("String builder contents: %s", builder.String())
 }
