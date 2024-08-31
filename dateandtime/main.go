@@ -1,19 +1,23 @@
 package main
 
 import (
-	// "fmt"
-	"fmt"
+	//"fmt"
 	"time"
 )
 
+func writeToChannel(channel chan<- string) {
+	names := []string{"Alice", "Bob", "Charlie", "Dora"}
+	for _, name := range names {
+		channel <- name
+	}
+	close(channel)
+}
 func main() {
-	d, err := time.ParseDuration("1h30m")
-	if err == nil {
-		Printfln("Hours: %v", d.Hours())
-		Printfln("Mins: %v", d.Minutes())
-		Printfln("Seconds: %v", d.Seconds())
-		Printfln("Millseconds: %v", d.Milliseconds())
-	} else {
-		fmt.Println(err.Error())
+	nameChannel := make(chan string)
+	time.AfterFunc(time.Second*5, func() {
+		writeToChannel(nameChannel)
+	})
+	for name := range nameChannel {
+		Printfln("Read name: %v", name)
 	}
 }
