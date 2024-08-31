@@ -6,17 +6,11 @@ import (
 )
 
 func processData(reader io.Reader, writer io.Writer) {
-	b := make([]byte, 2)
-	for {
-		count, err := reader.Read(b)
-		if count > 0 {
-			writer.Write(b[0:count])
-			Printfln("Read %v bytes: %v", count,
-				string(b[0:count]))
-		}
-		if err == io.EOF {
-			break
-		}
+	count, err := io.Copy(writer, reader)
+	if err == nil {
+		Printfln("Read %v bytes", count)
+	} else {
+		Printfln("Error: %v", err.Error())
 	}
 }
 
