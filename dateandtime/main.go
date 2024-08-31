@@ -5,23 +5,21 @@ import (
 	"time"
 )
 
-func writeToChannel(channel chan<- string) {
-	timer := time.NewTimer(time.Minute * 10)
-	go func() {
-		time.Sleep(time.Second * 2)
-		Printfln("Resetting timer")
-		timer.Reset(time.Second * 1)
-	}()
-	Printfln("Waiting for initial duration...")
-	<-timer.C
-	Printfln("Initial duration elapsed.")
+func writeToChannel(nameChannel chan<- string) {
 	names := []string{"Alice", "Bob", "Charlie", "Dora"}
-	for _, name := range names {
-		channel <- name
-		//time.Sleep(time.Second * 3)
+	tickChannel := time.Tick(time.Second)
+	index := 0
+	for {
+		<-tickChannel
+		nameChannel <- names[index]
+		index++
+		if index == len(names) {
+			close(nameChannel)
+			break
+		}
 	}
-	close(channel)
 }
+
 func main() {
 	nameChannel := make(chan string)
 	go writeToChannel(nameChannel)
