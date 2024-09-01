@@ -2,10 +2,13 @@ package main
 
 import (
 	"io"
+	"strings"
 )
 
 func main() {
-	pipeReader, pipeWriter := io.Pipe()
-	go GenerateData(pipeWriter)
-	ConsumeData(pipeReader)
+	r1 := strings.NewReader("Kayak")
+	r2 := strings.NewReader("Lifejacket")
+	r3 := strings.NewReader("Canoe")
+	concatReader := io.MultiReader(r1, r2, r3)
+	ConsumeData(concatReader)
 }
