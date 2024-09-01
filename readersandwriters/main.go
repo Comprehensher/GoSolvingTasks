@@ -6,9 +6,6 @@ import (
 
 func main() {
 	pipeReader, pipeWriter := io.Pipe()
-	go func() {
-		GenerateData(pipeWriter)
-		pipeWriter.Close()
-	}()
+	go GenerateData(pipeWriter)
 	ConsumeData(pipeReader)
 }
