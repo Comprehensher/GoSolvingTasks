@@ -7,15 +7,16 @@ import (
 )
 
 func main() {
-	var b bool = true
-	var str string = "Hello"
-	var fval float64 = 99.99
-	var ival int = 200
-	var pointer *int = &ival
+	names := []string{"Kayak", "Lifejacket", "Soccer Ball"}
+	numbers := [3]int{10, 20, 30}
+	var byteArray [5]byte
+	copy(byteArray[0:], []byte(names[0]))
+	byteSlice := []byte(names[0])
 	var writer strings.Builder
 	encoder := json.NewEncoder(&writer)
-	for _, val := range []interface{}{b, str, fval, ival, pointer} {
-		encoder.Encode(val)
-	}
+	encoder.Encode(names)
+	encoder.Encode(numbers)
+	encoder.Encode(byteArray)
+	encoder.Encode(byteSlice)
 	fmt.Print(writer.String())
 }
