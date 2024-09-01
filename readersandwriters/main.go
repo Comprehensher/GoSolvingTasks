@@ -14,5 +14,8 @@ func main() {
 		Discount: 10.50,
 	}
 	encoder.Encode(&dp)
+
+	dp2 := DiscountedProduct{Discount: 10.50}
+	encoder.Encode(&dp2)
 	fmt.Print(writer.String())
 }
