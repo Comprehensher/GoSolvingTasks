@@ -9,6 +9,10 @@ import (
 func main() {
 	var writer strings.Builder
 	encoder := json.NewEncoder(&writer)
-	encoder.Encode(Kayak)
+	dp := DiscountedProduct{
+		Product:  &Kayak,
+		Discount: 10.50,
+	}
+	encoder.Encode(&dp)
 	fmt.Print(writer.String())
 }
