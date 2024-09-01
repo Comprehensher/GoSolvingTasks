@@ -1,15 +1,27 @@
 package main
 
 import (
+	"bufio"
 	"io"
 	"strings"
 )
 
 func main() {
-	r1 := strings.NewReader("Kayak")
-	r2 := strings.NewReader("Lifejacket")
-	r3 := strings.NewReader("Canoe")
-	concatReader := io.MultiReader(r1, r2, r3)
-	limited := io.LimitReader(concatReader, 5)
-	ConsumeData(limited)
+	text := "It was a boat. A small boat."
+	var reader io.Reader = NewCustomReader(strings.NewReader(text))
+	var writer strings.Builder
+	slice := make([]byte, 5)
+
+	reader = bufio.NewReader(reader)
+
+	for {
+		count, err := reader.Read(slice)
+		if count > 0 {
+			writer.Write(slice[0:count])
+		}
+		if err != nil {
+			break
+		}
+	}
+	Printfln("Read data: %v", writer.String())
 }
