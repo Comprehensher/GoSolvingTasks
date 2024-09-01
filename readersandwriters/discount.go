@@ -1,6 +1,6 @@
 package main
 
 type DiscountedProduct struct {
-	*Product
+	*Product `json:"product"`
 	Discount float64
 }
