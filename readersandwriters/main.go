@@ -6,12 +6,12 @@ import (
 )
 
 func main() {
-	var w1 strings.Builder
-	var w2 strings.Builder
-	var w3 strings.Builder
-	combinedWriter := io.MultiWriter(&w1, &w2, &w3)
-	GenerateData(combinedWriter)
-	Printfln("Writer #1: %v", w1.String())
-	Printfln("Writer #2: %v", w2.String())
-	Printfln("Writer #3: %v", w3.String())
+	r1 := strings.NewReader("Kayak")
+	r2 := strings.NewReader("Lifejacket")
+	r3 := strings.NewReader("Canoe")
+	concatReader := io.MultiReader(r1, r2, r3)
+	var writer strings.Builder
+	teeReader := io.TeeReader(concatReader, &writer)
+	ConsumeData(teeReader)
+	Printfln("Echo data: %v", writer.String())
 }
