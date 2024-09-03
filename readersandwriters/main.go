@@ -2,26 +2,26 @@ package main
 
 import (
 	"encoding/json"
+	"io"
 	"strings"
 )
 
 func main() {
-	reader := strings.NewReader(`true "Hello" 99.99 200`)
-	var bval bool
-	var sval string
-	var fpval float64
-	var ival int
-	vals := []interface{}{&bval, &sval, &fpval, &ival}
+	reader := strings.NewReader(`[10,20,30]["Kayak","Lifejacket",279]`)
+	vals := []interface{}{}
 	decoder := json.NewDecoder(reader)
-	for i := 0; i < len(vals); i++ {
-		err := decoder.Decode(vals[i])
+	for {
+		var decodedVal interface{}
+		err := decoder.Decode(&decodedVal)
 		if err != nil {
-			Printfln("Error: %v", err.Error())
+			if err != io.EOF {
+				Printfln("Error: %v", err.Error())
+			}
 			break
 		}
+		vals = append(vals, decodedVal)
 	}
-	Printfln("Decoded (%T): %v", bval, bval)
-	Printfln("Decoded (%T): %v", sval, sval)
-	Printfln("Decoded (%T): %v", fpval, fpval)
-	Printfln("Decoded (%T): %v", ival, ival)
+	for _, val := range vals {
+		Printfln("Decoded (%T): %v", val, val)
+	}
 }
