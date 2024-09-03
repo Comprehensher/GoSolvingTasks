@@ -7,7 +7,7 @@ import (
 
 func main() {
 	reader := strings.NewReader(`{"Kayak" : 279, "Lifejacket" : 49.95}`)
-	m := map[string]interface{}{}
+	m := map[string]float64{}
 	decoder := json.NewDecoder(reader)
 	err := decoder.Decode(&m)
 	if err != nil {
