@@ -2,37 +2,26 @@ package main
 
 import (
 	"encoding/json"
-	"io"
 	"strings"
 )
 
 func main() {
 	reader := strings.NewReader(`true "Hello" 99.99 200`)
-	vals := []interface{}{}
+	var bval bool
+	var sval string
+	var fpval float64
+	var ival int
+	vals := []interface{}{&bval, &sval, &fpval, &ival}
 	decoder := json.NewDecoder(reader)
-	decoder.UseNumber()
-	for {
-		var decodedVal interface{}
-		err := decoder.Decode(&decodedVal)
+	for i := 0; i < len(vals); i++ {
+		err := decoder.Decode(vals[i])
 		if err != nil {
-			if err != io.EOF {
-				Printfln("Error: %v", err.Error())
-			}
+			Printfln("Error: %v", err.Error())
 			break
 		}
-		vals = append(vals, decodedVal)
 	}
-	for _, val := range vals {
-		if num, ok := val.(json.Number); ok {
-			if ival, err := num.Int64(); err == nil {
-				Printfln("Decoded Integer: %v", ival)
-			} else if fpval, err := num.Float64(); err == nil {
-				Printfln("Decoded Floating Point: %v", fpval)
-			} else {
-				Printfln("Decoded String: %v", num.String())
-			}
-		} else {
-			Printfln("Decoded (%T): %v", val, val)
-		}
-	}
+	Printfln("Decoded (%T): %v", bval, bval)
+	Printfln("Decoded (%T): %v", sval, sval)
+	Printfln("Decoded (%T): %v", fpval, fpval)
+	Printfln("Decoded (%T): %v", ival, ival)
 }
