@@ -2,20 +2,29 @@ package main
 
 import (
 	"encoding/json"
+	"io"
 	"strings"
 )
 
 func main() {
-	reader := strings.NewReader(`{"Kayak" : 279, "Lifejacket" : 49.95}`)
-	m := map[string]float64{}
+	reader := strings.NewReader(`
+{"Name":"Kayak","Category":"Watersports","Price":279}
+{"Name":"Lifejacket","Category":"Watersports" }
+{"name":"Canoe","category":"Watersports", "price": 100,
+"inStock": true }
+`)
 	decoder := json.NewDecoder(reader)
-	err := decoder.Decode(&m)
-	if err != nil {
-		Printfln("Error: %v", err.Error())
-	} else {
-		Printfln("Map: %T, %v", m, m)
-		for k, v := range m {
-			Printfln("Key: %v, Value: %v", k, v)
+	for {
+		var val Product
+		err := decoder.Decode(&val)
+		if err != nil {
+			if err != io.EOF {
+				Printfln("Error: %v", err.Error())
+			}
+			break
+		} else {
+			Printfln("Name: %v, Category: %v, Price: %v",
+				val.Name, val.Category, val.Price)
 		}
 	}
 }
