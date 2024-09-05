@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"os"
-	"strings"
 )
 
 type ConfigData struct {
@@ -14,14 +13,15 @@ type ConfigData struct {
 var Config ConfigData
 
 func LoadConfig() (err error) {
-	data, err := os.ReadFile("config.json")
+	file, err := os.Open("config.json")
 	if err == nil {
-		decoder :=
-			json.NewDecoder(strings.NewReader(string(data)))
+		defer file.Close()
+		decoder := json.NewDecoder(file)
 		err = decoder.Decode(&Config)
 	}
 	return
 }
+
 func init() {
 	err := LoadConfig()
 	if err != nil {
