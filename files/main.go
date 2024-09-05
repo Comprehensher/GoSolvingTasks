@@ -13,9 +13,11 @@ func main() {
 	}
 	dataStr := fmt.Sprintf("Time: %v, Total: $%.2f\n",
 		time.Now().Format("Mon 15:04:05"), total)
-	err := os.WriteFile("output.txt", []byte(dataStr), 0666)
+	file, err := os.OpenFile("output.txt",
+		os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 	if err == nil {
-		fmt.Println("Output file created")
+		defer file.Close()
+		file.WriteString(dataStr)
 	} else {
 		Printfln("Error: %v", err.Error())
 	}
