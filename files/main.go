@@ -1,26 +1,18 @@
 package main
 
 import (
-	"encoding/json"
 	"os"
-	"path/filepath"
 )
 
 func main() {
-	path, err := os.UserHomeDir()
+	path, err := os.Getwd()
 	if err == nil {
-		path = filepath.Join(path, "MyApp",
-			"MyTempFile.json")
-	}
-	Printfln("Full path: %v", path)
-	err = os.MkdirAll(filepath.Dir(path), 0766)
-	if err == nil {
-		file, err := os.OpenFile(path, os.O_CREATE|
-			os.O_WRONLY, 0666)
+		dirEntries, err := os.ReadDir(path)
 		if err == nil {
-			defer file.Close()
-			encoder := json.NewEncoder(file)
-			encoder.Encode(Products)
+			for _, dentry := range dirEntries {
+				Printfln("Entry name: %v, IsDir: %v",
+					dentry.Name(), dentry.IsDir())
+			}
 		}
 	}
 	if err != nil {
