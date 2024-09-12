@@ -1,8 +1,15 @@
 package main
 
+import (
+	"os"
+	"text/template"
+)
+
 func main() {
-	for _, p := range Products {
-		Printfln("Product: %v, Category: %v, Price: $%.2f",
-			p.Name, p.Category, p.Price)
+	t, err := template.ParseFiles("templates/template.html")
+	if err == nil {
+		t.Execute(os.Stdout, &Kayak)
+	} else {
+		Printfln("Error: %v", err.Error())
 	}
 }
