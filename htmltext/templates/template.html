@@ -4,3 +4,7 @@
 <h1>Price: {{ printf "$%.2f" .Price }}</h1>
 <h1>Tax: {{ printf "$%.2f" .AddTax }}</h1>
 <h1>Discount Price: {{ printf "$%.2f" (.ApplyDiscount 10)}}</h1>
+<h1>
+    {{- "" -}} Name: {{ .Name }}, Category: {{ .Category }}, Price,
+    {{- printf "$%.2f" .Price -}}
+    </h1>
