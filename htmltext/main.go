@@ -3,14 +3,15 @@ package main
 import (
 	"html/template"
 	"os"
+	"strings"
 )
 
-func GetCategories(products []Product) (categories []template.HTML) {
+func GetCategories(products []Product) (categories []string) {
 	catMap := map[string]string{}
 	for _, p := range products {
 		if catMap[p.Category] == "" {
 			catMap[p.Category] = p.Category
-			categories = append(categories, "<b>p.Category</b>")
+			categories = append(categories, p.Category)
 		}
 	}
 	return
@@ -22,6 +23,7 @@ func main() {
 	allTemplates := template.New("allTemplates")
 	allTemplates.Funcs(map[string]interface{}{
 		"getCats": GetCategories,
+		"lower":   strings.ToLower,
 	})
 	allTemplates, err :=
 		allTemplates.ParseGlob("templates/*.html")

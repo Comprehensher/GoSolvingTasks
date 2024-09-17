@@ -2,6 +2,6 @@
 <h1>There are {{ len . }} products in the source data.
 </h1>
 {{ range getCats . -}}
-<h1>Category: {{ . }}</h1>
+<h1>Category: {{ lower . }}</h1>
 {{ end }}
 {{- end }}
