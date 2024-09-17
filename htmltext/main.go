@@ -5,12 +5,12 @@ import (
 	"os"
 )
 
-func GetCategories(products []Product) (categories []string) {
+func GetCategories(products []Product) (categories []template.HTML) {
 	catMap := map[string]string{}
 	for _, p := range products {
 		if catMap[p.Category] == "" {
 			catMap[p.Category] = p.Category
-			categories = append(categories, p.Category)
+			categories = append(categories, "<b>p.Category</b>")
 		}
 	}
 	return
