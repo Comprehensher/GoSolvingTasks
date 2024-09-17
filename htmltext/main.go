@@ -10,7 +10,8 @@ func Exec(t *template.Template) error {
 }
 func main() {
 	allTemplates, err :=
-		template.ParseGlob("templates/*.html")
+		template.ParseFiles("templates/template.html",
+			"templates/list.html")
 	if err == nil {
 		selectedTemplated :=
 			allTemplates.Lookup("mainTemplate")
