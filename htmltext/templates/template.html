@@ -1,8 +1,7 @@
 {{ define "mainTemplate" -}}
-<h1>This is the layout header</h1>
-{{ block "body" . }}
-<h2>There are {{ len . }} products in the source
-data.</h2>
+<h1>There are {{ len . }} products in the source data.
+</h1>
+{{ range getCats . -}}
+<h1>Category: {{ . }}</h1>
 {{ end }}
-<h1>This is the layout footer</h1>
-{{ end }}
+{{- end }}
