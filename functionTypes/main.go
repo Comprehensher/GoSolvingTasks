@@ -9,8 +9,11 @@ func printPrice(product string, price float64, calculator calcFunc) {
 		calculator(price))
 }
 
-func printPriceSimple(product string, price float64, _ float64) {
-	fmt.Println("Product:", product, "Price: ", price)
+func printSuppliers(product string, suppliers ...string) {
+	for _, supplier := range suppliers {
+		fmt.Println("Product:", product, "Supplier:",
+			supplier)
+	}
 }
 
 var prizeGiveaway = false
@@ -47,5 +50,7 @@ func main() {
 		printPrice(product, price, soccerCalc)
 	}
 
-	printPriceSimple("Bread", 18, 1)
+	printSuppliers("Kayak", "Acme Kayaks", "Bob's Boats",
+		"Crazy Canoes")
+	printSuppliers("Lifejacket", "Sail Safe Co")
 }
