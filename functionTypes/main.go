@@ -50,7 +50,7 @@ func main() {
 		printPrice(product, price, soccerCalc)
 	}
 
-	printSuppliers("Kayak", "Acme Kayaks", "Bob's Boats",
-		"Crazy Canoes")
+	names := []string{"Acme Kayaks", "Bob's Boats", "Crazy Canoes"}
+	printSuppliers("Kayak", names...)
 	printSuppliers("Lifejacket", "Sail Safe Co")
 }
