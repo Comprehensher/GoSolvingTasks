@@ -9,6 +9,10 @@ func printPrice(product string, price float64, calculator calcFunc) {
 		calculator(price))
 }
 
+func printPriceSimple(product string, price float64, _ float64) {
+	fmt.Println("Product:", product, "Price: ", price)
+}
+
 var prizeGiveaway = false
 
 func priceCalcFactory(threshold, rate float64, zeroPrices *bool) calcFunc {
@@ -42,4 +46,6 @@ func main() {
 	for product, price := range soccerProducts {
 		printPrice(product, price, soccerCalc)
 	}
+
+	printPriceSimple("Bread", 18, 1)
 }
