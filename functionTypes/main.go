@@ -20,6 +20,11 @@ func printSuppliers(product string, suppliers ...string) {
 	}
 }
 
+func doublePrice(price float64) (resprice float64) {
+	resprice = price * 2
+	return
+}
+
 var prizeGiveaway = false
 
 func priceCalcFactory(threshold, rate float64, zeroPrices *bool) calcFunc {
@@ -57,4 +62,5 @@ func main() {
 	names := []string{"Acme Kayaks", "Bob's Boats", "Crazy Canoes"}
 	printSuppliers("Kayak", names...)
 	printSuppliers("Lifejacket")
+	fmt.Println(doublePrice(1000))
 }
