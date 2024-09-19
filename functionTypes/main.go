@@ -21,7 +21,11 @@ func printSuppliers(product string, suppliers ...string) {
 }
 
 func doublePrice(price float64) (resprice float64) {
+	fmt.Println("Function started")
+	defer fmt.Println("Defer 1")
 	resprice = price * 2
+	defer fmt.Println("Defer 2")
+	fmt.Println("Function about function")
 	return
 }
 
