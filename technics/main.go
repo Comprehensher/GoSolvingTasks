@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	var price float64 = 275.00
-	var price2 = price
+	var price float32
 	fmt.Println(price)
-	fmt.Println(price2)
+	price = 275.00
+	fmt.Println(price)
 }
